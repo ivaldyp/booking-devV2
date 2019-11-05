@@ -60,7 +60,7 @@
                     <select class="form-control" name="booking_room" id="booking_room" required>
                       <option value="<?php echo NULL; ?>" selected disabled>-- Pilih Ruang --</option>
                       <?php foreach ($rooms as $data) { ?>
-                        <option value="{{ $data->id_room }}">{{ $data->room_name }} (Kapasitas {{$data->room_capacity}} orang)</option>
+                        <option value="{{ $data->id_room }}" roomcap="{{$data->room_capacity}}">{{ $data->room_name }} (Kapasitas {{$data->room_capacity}} orang)</option>
                       <?php } ?>
                     </select>
                   </div>
@@ -69,7 +69,7 @@
                 <div class="form-group">
                   <label for="booking_total_tamu" class="col-lg-2 control-label"> Jumlah Peserta </label>
                   <div class="col-lg-4">
-                    <input type="number" class="form-control" id="booking_total_tamu" name="booking_total_tamu" autocomplete="off" maxlength="3">
+                    <input type="text" class="form-control" id="booking_total_tamu" name="booking_total_tamu" autocomplete="off" maxlength="3">
                   </div>
                 </div>
 
@@ -266,10 +266,39 @@
 
 @endsection
 
+@section('multipleselect')
+
+<script language="javascript" type="text/javascript">
+  $(function() {
+    $('#booking_room').multiselect({
+      selectAllValue:'multiselect-all',
+    });
+  });
+</script>
+
+@endsection
+
 @section('formvalidation')
 
 <script language="javascript" type="text/javascript">
   $(function() {
+
+    $('#booking_room').multiselect();
+
+    //WARNING KALAU TAMU LEBIH BANYAK DARI KAPASITAS RUANG
+    $("#booking_total_tamu").on("keypress keyup blur",function (event) {    
+      $(this).val($(this).val().replace(/[^\d].+/, ""));
+      if ((event.which < 48 || event.which > 57)) {
+        event.preventDefault();
+      }
+    });
+    // var capacity = 100;
+    // $("#booking_room").change(function(){
+    //   capacity = $(this).children("option:selected").attr("roomcap");
+    // });
+
+    // ---------------------------------------------------------------------- //
+
     $('#nip_peminjam').unbind('keyup change input paste').bind('keyup change input paste',function(e){
       var $this = $(this);
       var val = $this.val();
@@ -374,8 +403,8 @@
 
 <script type="text/javascript" language="javascript">
   $(function () {
-    $("#time_start").change(function(){
 
+    $("#time_start").change(function(){
       var selectedtime = $(this).children("option:selected").val();
       for (var i = 1; i <= 22; i++) {
         var timend = '#timend'+i;
