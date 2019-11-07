@@ -56,16 +56,38 @@
 
                 <div class="form-group">
                   <label for="booking_room" class="col-lg-2 control-label"><span style="color: red">*</span> Ruang Rapat </label>
-                  <div class="col-lg-8">
-                    <select class="form-control" name="booking_room" id="booking_room" required>
+                  <div class="col-lg-2">
+                    <select class="form-control" name="total_room" id="total_room" required >
+                      <option value="1"> 1 </option>
+                      <option value="2"> 2 </option>
+                      <option value="3"> 3 </option>
+                      <option value="4"> 4 </option>
+                    </select>
+                  </div>
+                  <!-- <div class="col-lg-8">
+                    <select class="form-control" name="booking_room[]" id="booking_room" required >
                       <option value="<?php echo NULL; ?>" selected disabled>-- Pilih Ruang --</option>
                       <?php foreach ($rooms as $data) { ?>
                         <option value="{{ $data->id_room }}" roomcap="{{$data->room_capacity}}">{{ $data->room_name }} (Kapasitas {{$data->room_capacity}} orang)</option>
                       <?php } ?>
                     </select>
-                  </div>
+                  </div> -->
                 </div>
 
+                <div id="ruang-tambahan">
+                  <div class="form-group">
+                    <label for="booking_room" class="col-lg-2 control-label"></label>
+                    <div class="col-lg-8">
+                      <select class="form-control" name="booking_room[]" required >
+                        <option value="<?php echo NULL; ?>" selected disabled>-- Pilih Ruang --</option>
+                        <?php foreach ($rooms as $data) { ?>
+                          <option value="{{ $data->id_room }}" roomcap="{{$data->room_capacity}}">{{ $data->room_name }} (Kapasitas {{$data->room_capacity}} orang)</option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+    
                 <div class="form-group">
                   <label for="booking_total_tamu" class="col-lg-2 control-label"> Jumlah Peserta </label>
                   <div class="col-lg-4">
@@ -157,7 +179,11 @@
               <div class="box-footer">
                 <div class="col-lg-2"></div>
                 <div class="col-lg-8">
-                  <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modal-default" id="btn_form_booking_modal">
+                  <!-- <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modal-default" id="btn_form_booking_modal">
+                    Simpan
+                  </button> -->
+
+                  <button type="submit" class="btn btn-primary pull-right" >
                     Simpan
                   </button>
                 </div>
@@ -283,7 +309,9 @@
 <script language="javascript" type="text/javascript">
   $(function() {
 
-    $('#booking_room').multiselect();
+    $("#total_room").change(function () {
+      $("#ruang-tambahan").empty();
+    });
 
     //WARNING KALAU TAMU LEBIH BANYAK DARI KAPASITAS RUANG
     $("#booking_total_tamu").on("keypress keyup blur",function (event) {    
@@ -404,6 +432,16 @@
 <script type="text/javascript" language="javascript">
   $(function () {
 
+    // $('#booking_room').multiSelect({
+    //   afterSelect: function(values){
+    //     var res = values[0].split("||");
+    //     // alert("Select value: "+res[1]);
+    //   },
+    //   afterDeselect: function(values){
+    //     alert("Deselect value: "+values);
+    //   }
+    // });
+
     $("#time_start").change(function(){
       var selectedtime = $(this).children("option:selected").val();
       for (var i = 1; i <= 22; i++) {
@@ -422,9 +460,23 @@
       if ($("#bidang_peminjam option:selected").text().substr(0,2) != '--') {
         $("#modal-bidang_peminjam").append($("#bidang_peminjam option:selected").text());
       }
-      if ($("#booking_room option:selected").text().substr(0,2) != '--') {
-        $("#modal-booking_room").append($("#booking_room option:selected").text());
-      }
+      // if ($("#booking_room option:selected").text().substr(0,2) != '--') {
+      //   $("#modal-booking_room").append($("#booking_room option:selected").text());
+      // }
+      // var items = [];
+      // $('#booking_room option:selected').each(function(){ items.push($(this).text()); });
+      // var result = $("#booking_room option:selected").val();
+      var str = "";
+      $( "#booking_room" )
+      .change(function() {
+        str = "";
+        $( "#booking_room option:selected" ).each(function() {
+          str += $( this ).text() + " ";
+        });
+      })
+      .trigger( "change" );      
+      console.log(str);
+      // console.log(result);
       $("#modal-booking_date").append($(".booking_date").val());
       if ($("#time_start option:selected").text().substr(0,2) != '--') {
         $("#modal-time_start").append($("#time_start option:selected").text());

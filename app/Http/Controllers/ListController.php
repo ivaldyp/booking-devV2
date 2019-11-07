@@ -34,12 +34,13 @@ class ListController extends Controller
         if (!(is_null($request->bidang_peminjam))) {
             $id_bidang = $request->bidang_peminjam;
         } else {
-            if (is_null(Session::get('user_data')->user_bidang)) {
+            if (!(isset(Session::get('user_data')->user_bidang))) {
                 $id_bidang = 1;
             } else {
                 $id_bidang = Session::get('user_data')->user_bidang;
             }
         }
+
         $bidangs = Bidang::get();
         $listbidang = Booking::with('status')
                         ->with('surat')
@@ -63,30 +64,6 @@ class ListController extends Controller
     }
 
     public function getRuang()
-    {
-        //
-    }
-
-    public function changeBidang(Request $request)
-    {
-        $id_bidang = $request->bidang_peminjam;
-        $bidangs = Bidang::get();
-        $listbidang = Booking::with('status')
-                        ->with('surat')
-                        ->with('bidang')
-                        ->with('room')
-                        ->with('time1')
-                        ->with('time2')
-                        ->where('booking_status', 3)
-                        ->where('bidang_peminjam', $id_bidang)
-                        ->orderBy('booking_date', 'desc')
-                        ->orderBy('time_start', 'asc')
-                        ->orderBy('time_end', 'asc')
-                        ->get();
-        return view('pages.lists.bidang')->with('listbidang', $listbidang)->with('bidangs', $bidangs);
-    }
-
-    public function changeRuang()
     {
         //
     }

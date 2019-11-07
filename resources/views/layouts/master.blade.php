@@ -37,7 +37,8 @@
   <script src="{{ ('/booking-dev/public/plugins/jQuery/jquery-3.1.1.min.js') }}"></script>
 
   <!-- multiple select -->
-  <link rel="stylesheet" href="{{ ('/booking-devV2/public/js/multiple/dist/css/bootstrap-multiselect.css') }}" type="text/css">
+  <!-- <link rel="stylesheet" href="{{ ('/booking-devV2/public/js/multiple/dist/css/bootstrap-multiselect.css') }}" type="text/css"> -->
+  <link href="{{ ('/booking-devV2/public/js/multiselect/css/multi-select.css') }}" media="screen" rel="stylesheet" type="text/css">
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -484,7 +485,8 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
 <!-- Multiple select -->
-<script type="text/javascript" src="{{ ('/booking-devV2/public/js/multiple/dist/js/bootstrap-multiselect.js') }}"></script>
+<!-- <script type="text/javascript" src="{{ ('/booking-devV2/public/js/multiple/dist/js/bootstrap-multiselect.js') }}"></script> -->
+<script src="{{ ('/booking-devV2/public/js/multiselect/js/jquery.multi-select.js') }}" type="text/javascript"></script>
 
 @yield('cal-init')
 
