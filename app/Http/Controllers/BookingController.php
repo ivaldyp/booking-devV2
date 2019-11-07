@@ -18,8 +18,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 
 class BookingController extends Controller
-{
-
+{  
     // public function confirm(Request $request)
     // {
     //     $data['bidang'] = DB::select("SELECT * FROM bidangs WHERE id_bidang='$request->bidang_peminjam' ");
@@ -45,7 +44,7 @@ class BookingController extends Controller
         readfile($data->file_fullpath);
     }
 
-    public function showAllBook()
+    public function showAllBook(Request $request)
     {
         // $data['booking_not'] = DB::select("SELECT b.id_booking, b.id_peminjam, b.nama_peminjam, b.bidang_peminjam, b.booking_room, b.booking_total_tamu, DATE_FORMAT(b.created_at, '%d-%m-%Y %H:%i %p') as tanggal_dibuat, b.nip_peminjam, b.booking_date, DATE_FORMAT(b.booking_date, '%d-%m-%Y') as booking_date2, b.time_start, b.time_end, b.booking_status, b.keterangan_status, bs.status_id,
         // bs.status_name, bid.bidang_name, r.id_room, r.room_name, t1.id_time as id_time1, DATE_FORMAT(t1.time_name, '%H:%i') as time_start, t2.id_time as id_time2, DATE_FORMAT(t2.time_name, '%H:%i') as time_end,
@@ -125,7 +124,7 @@ class BookingController extends Controller
         return view('pages.bookings.table')->with('bookingnot', $bookingnot)->with('bookingcancel', $bookingcancel)->with('bookingdone', $bookingdone);
     }
 
-    public function showBookCancel()
+    public function showBookCancel(Request $request)
     {
         // $data['rooms'] = DB::select("SELECT b.id_booking, b.id_peminjam, b.nama_peminjam, b.bidang_peminjam, b.booking_room, b.booking_total_tamu, DATE_FORMAT(b.created_at, '%d-%m-%Y %H:%i %p') as tanggal_dibuat, b.nip_peminjam, b.booking_date, DATE_FORMAT(b.booking_date, '%d-%m-%Y') as booking_date2, b.time_start, b.time_end, b.booking_status, b.keterangan_status, b.id_penyetuju,
         // bs.status_name, bid.bidang_name, r.id_room, r.room_name, t1.id_time as id_time1, DATE_FORMAT(t1.time_name, '%H:%i') as time_start, t2.id_time as id_time2, DATE_FORMAT(t2.time_name, '%H:%i') as time_end,

@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Bidang;
 use App\Booking;
+use App\Subbidang;
 use App\Surat;
 use App\User_Type;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -45,12 +48,19 @@ class HomeController extends Controller
 
             $data['user_status'] = User_Type::where('id_userType', $user_status);
             Session::put('user_status', $user_status);
-        } 
+            $data_user = User::where('id_user',$this->user->id_user)
+                            ->leftjoin('subbidangs', 'subbidangs.id_subbidang', '=', 'users.user_subbidang')
+                            ->leftjoin('bidangs', 'bidangs.id_bidang', '=', 'subbidangs.id_bidang')
+                            ->get();
+            Session::put('user_data', $data_user[0]);
+        }
+        
         return view('home', $data);
     }
 
     public function index2()
     {
+
         $data = [];
         if (Auth::check()) {
             $user_status = $this->user->user_status;
@@ -61,7 +71,12 @@ class HomeController extends Controller
 
             $data['user_status'] = User_Type::where('id_userType', $user_status);
             Session::put('user_status', $user_status);
-        } 
+            $data_user = User::where('id_user',$this->user->id_user)
+                            ->leftjoin('subbidangs', 'subbidangs.id_subbidang', '=', 'users.user_subbidang')
+                            ->leftjoin('bidangs', 'bidangs.id_bidang', '=', 'subbidangs.id_bidang')
+                            ->get();
+            Session::put('user_data', $data_user[0]);
+        }
         return view('home2', $data);
     }
 

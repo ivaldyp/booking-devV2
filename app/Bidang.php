@@ -9,6 +9,13 @@ class Bidang extends Model
 	protected $primaryKey = 'id_bidang';
 
     protected $fillable = [
-    	'bidang_name', 'created_at', 'updated_at'
+    	'id_subbidang', 'bidang_name', 'created_at', 'updated_at'
     ];
+
+    // public function subbidang()
+    // {
+    //     return $this->hasOne('App\Subbidang','id_subbidang','id_subbidang');
+    // }
+
+    
 }

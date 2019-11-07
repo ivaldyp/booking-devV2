@@ -16,6 +16,7 @@ class RoomsTableSeeder extends Seeder
 	        	'id_room' => Str::random(32),
 	            'room_name' => "Ruang Rapat Simaster",
 	            'room_owner' => "5",
+	            'room_subowner' => "15"
 	            'room_type' => "2",
 	            'room_floor' => "5",
 	            'room_capacity' => "20",
@@ -24,6 +25,7 @@ class RoomsTableSeeder extends Seeder
 	        	'id_room' => Str::random(32),
 	        	'room_name' => "Ruang Rapat Siera",
 	            'room_owner' => "5",
+	            'room_subowner' => "13"
 	            'room_type' => "1",
 	            'room_floor' => "5",
 	            'room_capacity' => "20",
@@ -32,6 +34,7 @@ class RoomsTableSeeder extends Seeder
 	        	'id_room' => Str::random(32),
 	        	'room_name' => "Ruang Command Center",
 	            'room_owner' => "5",
+	            'room_subowner' => "15"
 	            'room_type' => "2",
 	            'room_floor' => "5",
 	            'room_capacity' => "20",

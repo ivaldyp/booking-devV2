@@ -151,6 +151,18 @@
         @endif
         <li class="treeview">
           <a href="#">
+            <i class="fa fa-book"></i> <span>List</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ url('list/bidang') }}"><i class="fa fa-search"></i> Pinjaman Per Bidang </a></li>
+            <li><a href="{{ url('list/ruang') }}"><i class="fa fa-search"></i> Pinjaman Per Ruang </a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
             <i class="fa fa-book"></i> <span>Booking</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>

@@ -53,6 +53,11 @@ Route::group(['prefix' => 'book_status'], function () {
 	Route::get('/delete/{id}', 'BidangController@delete');
 });
 
+Route::group(['prefix' => 'list'], function () {
+	Route::get('/bidang', 'ListController@getBidang');
+	Route::get('/ruang', 'ListController@getRuang');
+});
+
 Route::group(['prefix' => 'notulen'], function () {
 	Route::get('/', 'NotulenController@index');
 	Route::post('/store', 'NotulenController@store');
