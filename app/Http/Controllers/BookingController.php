@@ -330,11 +330,16 @@ class BookingController extends Controller
 
         $times = Time::get();
 
+        var_dump($bidangs);
+        die();
+
         return view('pages.bookings.form')->with('rooms', $rooms)->with('bidangs', $bidangs)->with('times', $times);
     }
 
     public function store(Request $request)
     {
+        // var_dump($request->booking_room);
+        // die();
         $date = str_replace('/', '-', $request->booking_date);
         $newDate = date("Y/m/d", strtotime($date));
         // $book_check = DB::select("SELECT * FROM bookings 
@@ -344,15 +349,19 @@ class BookingController extends Controller
         //             AND time_end > '$request->time_start'
         //             AND id_penyetuju is not null");
 
-        $book_check = Booking::
-                        where('booking_room', $request->booking_room)
+        $totalbookcheck = 0;
+        for ($i=0; $i < $request->total_room; $i++) { 
+            $book_check = Booking::
+                        where('booking_room', $request->booking_room[$i])
                         ->where('booking_date', $newDate)
                         ->where('time_start', '<=', $request->time_start)
                         ->where('time_end', '>', $request->time_start)
-                        ->whereNotNull('id_penyetuju')
-                        ->get();
+                        ->where('booking_status', 3)
+                        ->get();   
+            $totalbookcheck = $totalbookcheck + count($book_check);
+        }
 
-        if (count($book_check) > 0) {
+        if ($totalbookcheck > 0) {
             return redirect('/booking/form')->with('message', 'Tidak dapat melakukan booking karena jadwal tersebut telah terisi');    
         }
 
@@ -380,7 +389,6 @@ class BookingController extends Controller
         $newDate = date("Y-m-d", strtotime($date));
 
         $surat = new Surat;
-        $booking = new Booking;
 
         $surat->id_surat = $request->id_surat;
         $surat->surat_judul = $request->surat_judul;
@@ -390,37 +398,37 @@ class BookingController extends Controller
         $surat->file_fullpath = $tujuan_upload.'\\'.$file_name;
 
         // echo "<pre>";
-        var_dump($surat->file_name);        
-        var_dump($surat->file_fullpath);
+        // var_dump($surat->file_name);        
+        // var_dump($surat->file_fullpath);
         // die();
-
         if ($surat->save()) {
-            $booking->id_booking = $request->id_booking;
-            $booking->id_surat = $request->id_surat;
-            $booking->id_peminjam = Auth::id();
-            $booking->nip_peminjam = $request->nip_peminjam;
-            $booking->nama_peminjam = $request->nama_peminjam;
-            $booking->bidang_peminjam = $request->bidang_peminjam;
-            $booking->booking_room = $request->booking_room;
-            $booking->booking_total_tamu = $request->booking_total_tamu;
-            $booking->booking_total_snack = $request->booking_total_snack;
-            $booking->booking_date = $newDate;
-            $booking->time_start = $request->time_start;
-            $booking->time_end = $request->time_end;
-            $booking->booking_status = $request->booking_status;
-            $booking->request_hapus = $request->request_hapus;
-            date_default_timezone_set('Asia/Jakarta');
-            $booking->created_at = date('Y-m-d H:i:s');
-            $booking->updated_at = date('Y-m-d H:i:s');
-
-            if ($booking->save()) {
-                return redirect('/home')->with('message', 'Booking berhasil dilakukan, harap menunggu hingga peminjaman ruangan disetujui');
-            } else {
-                return redirect('/home')->with('message', 'Booking gagal dilakukan');
+            for ($i=0; $i < $request->total_room; $i++) { 
+                // $surat = new Surat;
+                ${'booking' . $i} = new Booking;
+                ${'booking' . $i}->id_booking = md5(uniqid());
+                ${'booking' . $i}->id_surat = $request->id_surat;
+                ${'booking' . $i}->id_peminjam = Auth::id();
+                ${'booking' . $i}->nip_peminjam = $request->nip_peminjam;
+                ${'booking' . $i}->nama_peminjam = $request->nama_peminjam;
+                ${'booking' . $i}->bidang_peminjam = $request->bidang_peminjam;
+                ${'booking' . $i}->booking_room = $request->booking_room[$i];
+                ${'booking' . $i}->booking_total_tamu = $request->booking_total_tamu;
+                ${'booking' . $i}->booking_total_snack = $request->booking_total_snack;
+                ${'booking' . $i}->booking_date = $newDate;
+                ${'booking' . $i}->time_start = $request->time_start;
+                ${'booking' . $i}->time_end = $request->time_end;
+                ${'booking' . $i}->booking_status = $request->booking_status;
+                ${'booking' . $i}->request_hapus = $request->request_hapus;
+                date_default_timezone_set('Asia/Jakarta');
+                ${'booking' . $i}->created_at = date('Y-m-d H:i:s');
+                ${'booking' . $i}->updated_at = date('Y-m-d H:i:s');
+                ${'booking' . $i}->save();
+                var_dump($i);
             }
         } else {
             return redirect('/home')->with('message', 'Data Surat ada yang salah');
         }
+        return redirect('/home')->with('message', 'Booking berhasil dilakukan, harap menunggu hingga peminjaman ruangan disetujui');
     }
 
     public function updateBookRoom(Request $request)

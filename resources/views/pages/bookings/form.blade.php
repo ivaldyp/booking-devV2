@@ -23,9 +23,9 @@
               @csrf
               <div class="box-body">
 
-                <input type="hidden" name="id_booking" value="<?php echo md5(uniqid()); ?>">
+                <!-- <input type="hidden" name="id_booking" value="<?php echo md5(uniqid()); ?>"> -->
                 <input type="hidden" name="id_surat" value="<?php echo md5(uniqid()); ?>">
-                <input type="hidden" name="booking_status" value="1">
+                <!-- <input type="hidden" name="booking_status" value="1"> -->
                 <input type="hidden" name="request_hapus" value="0">
                 
                 <div class="form-group">
@@ -78,7 +78,7 @@
                   <div class="form-group">
                     <label for="booking_room" class="col-lg-2 control-label"></label>
                     <div class="col-lg-8">
-                      <select class="form-control" name="booking_room[]" required >
+                      <select class="form-control booking_room" name="booking_room[]" required >
                         <option value="<?php echo NULL; ?>" selected disabled>-- Pilih Ruang --</option>
                         <?php foreach ($rooms as $data) { ?>
                           <option value="{{ $data->id_room }}" roomcap="{{$data->room_capacity}}">{{ $data->room_name }} (Kapasitas {{$data->room_capacity}} orang)</option>
@@ -183,7 +183,8 @@
                     Simpan
                   </button> -->
 
-                  <button type="submit" class="btn btn-primary pull-right" >
+                  <!-- <button type="submit" class="btn btn-primary pull-right" id="btn_form_booking_modal"> -->
+                  <button type="submit" class="btn btn-primary pull-right">
                     Simpan
                   </button>
                 </div>
@@ -311,6 +312,9 @@
 
     $("#total_room").change(function () {
       $("#ruang-tambahan").empty();
+      for (var i = 0; i < $("#total_room").val(); i++) {
+        $("#ruang-tambahan").append('<div class="form-group"><label for="booking_room" class="col-lg-2 control-label"></label><div class="col-lg-8"><select class="form-control booking_room" name="booking_room[]" required ><option value="<?php echo NULL; ?>" selected disabled>-- Pilih Ruang --</option><?php foreach ($rooms as $data) { ?><option value="{{ $data->id_room }}" roomcap="{{$data->room_capacity}}">{{ $data->room_name }} (Kapasitas {{$data->room_capacity}} orang)</option><?php } ?></select></div></div>');
+      }
     });
 
     //WARNING KALAU TAMU LEBIH BANYAK DARI KAPASITAS RUANG
@@ -442,6 +446,9 @@
     //   }
     // });
 
+    var str = ""
+
+
     $("#time_start").change(function(){
       var selectedtime = $(this).children("option:selected").val();
       for (var i = 1; i <= 22; i++) {
@@ -460,22 +467,20 @@
       if ($("#bidang_peminjam option:selected").text().substr(0,2) != '--') {
         $("#modal-bidang_peminjam").append($("#bidang_peminjam option:selected").text());
       }
-      // if ($("#booking_room option:selected").text().substr(0,2) != '--') {
-      //   $("#modal-booking_room").append($("#booking_room option:selected").text());
-      // }
+      if ($("#booking_room option:selected").text().substr(0,2) != '--') {
+        $("#modal-booking_room").append($("#booking_room option:selected").text());
+      }  
+      if ($("#booking_room option:selected").text().substr(0,2) != '--') {
+        $("#modal-booking_room").append($("#booking_room option:selected").text());
+      }
+      // var selectedrooms = $(".booking_room :selected").val();
+      // $.each($(".booking_room :selected"), function( index, value ) {
+      //   alert( index + ": " + value );
+      // });
+      // console.log($(".booking_room :selected").val());    
       // var items = [];
       // $('#booking_room option:selected').each(function(){ items.push($(this).text()); });
       // var result = $("#booking_room option:selected").val();
-      var str = "";
-      $( "#booking_room" )
-      .change(function() {
-        str = "";
-        $( "#booking_room option:selected" ).each(function() {
-          str += $( this ).text() + " ";
-        });
-      })
-      .trigger( "change" );      
-      console.log(str);
       // console.log(result);
       $("#modal-booking_date").append($(".booking_date").val());
       if ($("#time_start option:selected").text().substr(0,2) != '--') {
