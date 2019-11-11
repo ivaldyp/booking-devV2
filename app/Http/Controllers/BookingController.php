@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 use App\Bidang;
 use App\Booking;
 use App\Booking_Status;
@@ -223,6 +224,59 @@ class BookingController extends Controller
         return view('pages.bookings.table-not')->with('roomlists', $roomlists)->with('rooms', $rooms);
     }
 
+    public function showBookOthers()
+    {
+        // $data['roomlist'] = DB::select('SELECT r.*, b.bidang_name, rt.roomType_name
+        //                     FROM rooms r
+        //                     INNER JOIN bidangs b ON b.id_bidang = r.room_owner
+        //                     INNER JOIN room_types rt ON rt.id_roomType = r.room_type');
+
+        $roomlists = Room::with('bidang')
+                        ->with('roomtype')
+                        ->get();
+        // var_dump($roomlists[3]->id_room);
+        // die();
+
+        // $data['rooms'] = DB::select("SELECT b.id_booking, b.id_peminjam, b.nama_peminjam, b.bidang_peminjam, b.booking_room, b.booking_total_tamu, DATE_FORMAT(b.created_at, '%d-%m-%Y %H:%i %p') as tanggal_dibuat, b.nip_peminjam, b.booking_date, DATE_FORMAT(b.booking_date, '%d-%m-%Y') as booking_date2, b.time_start, b.time_end, b.booking_status, b.keterangan_status,
+        // bs.status_name, bid.bidang_name, r.id_room, r.room_name, t1.id_time as id_time1, DATE_FORMAT(t1.time_name, '%H:%i') as time_start, t2.id_time as id_time2, DATE_FORMAT(t2.time_name, '%H:%i') as time_end,
+        // s.id_surat, s.surat_judul, s.surat_deskripsi, s.file_name, s.file_fullpath
+        //                 FROM bookings b
+        //                 INNER JOIN booking_statuses bs ON bs.status_id = b.booking_status
+        //                 INNER JOIN surats s ON s.id_surat = b.id_surat
+        //                 INNER JOIN bidangs bid ON bid.id_bidang = b.bidang_peminjam
+        //                 INNER JOIN rooms r ON r.id_room = b.booking_room
+        //                 INNER JOIN times t1 ON t1.id_time = b.time_start
+        //                 INNER JOIN times t2 ON t2.id_time = b.time_end
+        //                 WHERE b.booking_status = 1
+        //                 ORDER BY b.created_at ASC");
+
+        // $rooms = Booking::with('status')
+        //             ->with('surat')
+        //             ->with('bidang')
+        //             ->with('room')
+        //             ->with('time1')
+        //             ->with('time2')
+        //             ->where('booking_status', 1)
+        //             ->orderBy('created_at', 'asc')
+        //             ->get();
+
+        $rooms = Booking::with('status')
+                    ->with('surat')
+                    ->with('bidang')
+                    ->with('room')
+                    ->with('time1')
+                    ->with('time2')
+                    ->where('booking_status', 1)
+                    ->where('booking_room_owner', Session::get('user_data')->user_bidang)
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+
+        // var_dump(Session::get('user_data')->user_bidang);
+        // die();
+
+        return view('pages.bookings.others')->with('roomlists', $roomlists)->with('rooms', $rooms);
+    }
+
     public function showBookMy()
     {
         $id_peminjam = Auth::id();
@@ -313,6 +367,7 @@ class BookingController extends Controller
 
     public function showForm()
     {
+
         // $data['rooms'] = DB::select('SELECT r.*, b.bidang_name, rt.roomType_name
         //                     FROM rooms r
         //                     INNER JOIN bidangs b ON b.id_bidang = r.room_owner
@@ -322,6 +377,9 @@ class BookingController extends Controller
         // $data['times'] = DB::select('SELECT id_time, DATE_FORMAT(time_name, "%H:%i") as time_name, created_at, updated_at
         //                     FROM times');
 
+        // var_dump();
+        // die();
+
         $rooms = Room::with('bidang')
                         ->with('roomtype')
                         ->get();
@@ -330,16 +388,11 @@ class BookingController extends Controller
 
         $times = Time::get();
 
-        var_dump($bidangs);
-        die();
-
         return view('pages.bookings.form')->with('rooms', $rooms)->with('bidangs', $bidangs)->with('times', $times);
     }
 
     public function store(Request $request)
     {
-        // var_dump($request->booking_room);
-        // die();
         $date = str_replace('/', '-', $request->booking_date);
         $newDate = date("Y/m/d", strtotime($date));
         // $book_check = DB::select("SELECT * FROM bookings 
@@ -411,13 +464,20 @@ class BookingController extends Controller
                 ${'booking' . $i}->nip_peminjam = $request->nip_peminjam;
                 ${'booking' . $i}->nama_peminjam = $request->nama_peminjam;
                 ${'booking' . $i}->bidang_peminjam = $request->bidang_peminjam;
-                ${'booking' . $i}->booking_room = $request->booking_room[$i];
+                // ${'booking' . $i}->booking_room = $request->booking_room[$i];
+                $room_detail = explode("||", $request->booking_room[$i]);
+                ${'booking' . $i}->booking_room = $room_detail[0];
+                ${'booking' . $i}->booking_room_owner = $room_detail[1];
+                if (Session::get('user_data')->user_bidang == $room_detail[1]) {
+                    ${'booking' . $i}->booking_status = 3;
+                } else {
+                    ${'booking' . $i}->booking_status = 1;
+                }
                 ${'booking' . $i}->booking_total_tamu = $request->booking_total_tamu;
                 ${'booking' . $i}->booking_total_snack = $request->booking_total_snack;
                 ${'booking' . $i}->booking_date = $newDate;
                 ${'booking' . $i}->time_start = $request->time_start;
                 ${'booking' . $i}->time_end = $request->time_end;
-                ${'booking' . $i}->booking_status = $request->booking_status;
                 ${'booking' . $i}->request_hapus = $request->request_hapus;
                 date_default_timezone_set('Asia/Jakarta');
                 ${'booking' . $i}->created_at = date('Y-m-d H:i:s');

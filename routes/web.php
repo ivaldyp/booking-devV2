@@ -39,6 +39,7 @@ Route::group(['prefix' => 'booking'], function () {
 	Route::get('/done', 'BookingController@showBookDone');
 	Route::get('/cancel', 'BookingController@showBookCancel');
 	Route::get('/my-booking', 'BookingController@showBookMy');
+	Route::get('/bidang-lain', 'BookingController@showBookOthers');
 	Route::post('/confirm', 'BookingController@confirm');
 	Route::get('/download/{id}', 'BookingController@download');
 	Route::get('/form', 'BookingController@showForm');

@@ -173,6 +173,7 @@
             @if(Auth::check())
               @if(Auth::user()->user_status == 2)
                 <li><a href="{{ url('booking/my-booking') }}"><i class="fa fa-odnoklassniki"></i> Pinjaman Saya </a></li>
+                <li><a href="{{ url('booking/bidang-lain') }}"><i class="fa fa-odnoklassniki"></i> Pinjaman Dari Bidang Lain </a></li>
               @elseif(Auth::user()->user_status != 2)
                 <li><a href="{{ url('booking/not') }}"><i class="fa   fa-question"></i> Pinjaman Belum Disetujui </a></li>
                 <li><a href="{{ url('booking/cancel') }}"><i class="fa fa-close"></i> Pinjaman Dibatalkan </a></li>

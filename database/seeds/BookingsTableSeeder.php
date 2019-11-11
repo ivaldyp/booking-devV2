@@ -20,6 +20,7 @@ class BookingsTableSeeder extends Seeder
                 'id_room' => $room1,
                 'room_name' => "Ruang Rapat Simaster",
                 'room_owner' => "5",
+                'room_subowner' => "15",
                 'room_type' => "2",
                 'room_floor' => "5",
                 'room_capacity' => "20",
@@ -28,6 +29,7 @@ class BookingsTableSeeder extends Seeder
                 'id_room' => $room2,
                 'room_name' => "Ruang Rapat Siera",
                 'room_owner' => "5",
+                'room_subowner' => "13",
                 'room_type' => "1",
                 'room_floor' => "5",
                 'room_capacity' => "20",
@@ -36,6 +38,7 @@ class BookingsTableSeeder extends Seeder
                 'id_room' => $room3,
                 'room_name' => "Ruang Command Center",
                 'room_owner' => "5",
+                'room_subowner' => "15",
                 'room_type' => "2",
                 'room_floor' => "5",
                 'room_capacity' => "20",
@@ -44,7 +47,7 @@ class BookingsTableSeeder extends Seeder
 
     	$angka = 1;
     	$nip = 12;
-    	$date = 4;
+    	$date = 18;
     	$rooms = [$room1, $room2, $room3];
 
         for ($i=1; $i <= 5; $i++) { 
