@@ -41,6 +41,12 @@ class ListController extends Controller
             }
         }
 
+        if (!(is_null($request->booking_status))) {
+            $booking_status = $request->booking_status;
+        } else {
+            $booking_status = 3;
+        }
+
         $bidangs = Bidang::get();
         $listbidang = Booking::with('status')
                         ->with('surat')
@@ -48,7 +54,7 @@ class ListController extends Controller
                         ->with('room')
                         ->with('time1')
                         ->with('time2')
-                        ->where('booking_status', 3)
+                        ->where('booking_status', $booking_status)
                         ->where('booking_room_owner', $id_bidang)
                         ->whereMonth('booking_date', $monthnow)
                         ->orderBy('booking_date', 'desc')
@@ -63,9 +69,54 @@ class ListController extends Controller
                 ->with('montharray', $montharray);
     }
 
-    public function getRuang()
+    public function getRuang(Request $request)
     {
-        //
+        if (!(is_null($request->monthnow))) {
+            $monthnow = $request->monthnow;
+        } else {
+            $monthnow = date('m');
+        }
+
+        $montharray = ['Jan', 'Feb', 'Mar', 
+                        'Apr', 'Mei', 'Jun',
+                        'Jul', 'Agu', 'Sep',
+                        'Okt', 'Nov', 'Des'];
+
+        if (!(is_null($request->booking_status))) {
+            $booking_status = $request->booking_status;
+        } else {
+            $booking_status = 3;
+        }
+
+        $rooms = Room::orderBy('room_owner')
+                    ->orderBy('room_subowner')
+                    ->get();
+
+        if (!(is_null($request->booking_room))) {
+            $id_room = $request->booking_room;
+        } else {
+            $id_room = $rooms[0]->id_room;
+        }
+
+        $listruang = Booking::with('status')
+                        ->with('surat')
+                        ->with('bidang')
+                        ->with('room')
+                        ->with('time1')
+                        ->with('time2')
+                        ->where('booking_status', $booking_status)
+                        ->where('booking_room', $id_room)
+                        ->whereMonth('booking_date', $monthnow)
+                        ->orderBy('booking_date', 'desc')
+                        ->orderBy('time_start', 'asc')
+                        ->orderBy('time_end', 'asc')
+                        ->get();
+        return view('pages.lists.ruang')
+                ->with('listruang', $listruang)
+                ->with('rooms', $rooms)
+                ->with('id_room', $id_room)
+                ->with('monthnow', $monthnow)
+                ->with('montharray', $montharray);
     }
     /**
      * Display a listing of the resource.
