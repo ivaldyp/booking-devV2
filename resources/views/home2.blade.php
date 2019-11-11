@@ -96,7 +96,7 @@
 		</section>
 		<!-- /.content -->
 
-	    <script src="{{ URL::asset('plugins2/bower_components/calendar/dist/cal-init2.js') }}"></script>
+	    <!-- <script src="{{ URL::asset('plugins2/bower_components/calendar/dist/cal-init2.js') }}"></script> -->
 
 @endsection 
 

@@ -87,7 +87,7 @@
 			</div>
 		</section>
 
-		<script src="{{ URL::asset('plugins2/bower_components/calendar/dist/cal-init.js') }}"></script>
+		<!-- <script src="{{ URL::asset('plugins2/bower_components/calendar/dist/cal-init.js') }}"></script> -->
 		<!-- /.content -->
 
 @endsection 
