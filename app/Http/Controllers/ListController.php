@@ -49,7 +49,7 @@ class ListController extends Controller
                         ->with('time1')
                         ->with('time2')
                         ->where('booking_status', 3)
-                        ->where('bidang_peminjam', $id_bidang)
+                        ->where('booking_room_owner', $id_bidang)
                         ->whereMonth('booking_date', $monthnow)
                         ->orderBy('booking_date', 'desc')
                         ->orderBy('time_start', 'asc')
