@@ -529,7 +529,7 @@ class BookingController extends Controller
                 } elseif ($request->status_id == 3) {
                     return redirect('booking/cancel')->with('message', 'Berhasil melakukan perubahan terhadap status booking');
                 }
-            } elseif (end($back_link) == 'not') {
+            } elseif (end($back_link) == 'not' || end($back_link) == 'bidang-lain') {
                 if ($request->booking_status == 2) {
                     return redirect('booking/cancel')->with('message', 'Berhasil melakukan perubahan terhadap status booking');
                 } elseif ($request->booking_status == 3) {
@@ -574,13 +574,18 @@ class BookingController extends Controller
                         $booking->save();
                     }
                     
-                    return redirect('booking/done')->with('message', 'Berhasil melakukan perubahan terhadap status booking');
+                    if (end($back_link) == 'not') {
+                        return redirect('booking/done')->with('message', 'Berhasil melakukan perubahan terhadap status booking');
+                    } elseif (end($back_link) == 'bidang-lain') {
+                        return redirect('booking/bidang-lain')->with('message', 'Berhasil melakukan perubahan terhadap status booking');
+                    }
+                    
                 }
             } elseif (end($back_link) == 'done') {
                 return redirect('booking/cancel')->with('message', 'Berhasil melakukan perubahan terhadap status booking');
             }
         } else {
-            if (end($back_link) == 'not') {
+            if (end($back_link) == 'not' || end($back_link) == 'bidang-lain') {
                 return redirect('booking/not')->with('message', 'Gagal melakukan perubahan terhadap status booking');
             } elseif (end($back_link) == 'done') {
                 return redirect('booking/done')->with('message', 'Gagal melakukan perubahan terhadap status booking');

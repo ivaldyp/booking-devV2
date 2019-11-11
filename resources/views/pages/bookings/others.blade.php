@@ -6,7 +6,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			@if(Session::has('message'))
-				<div class="alert alert-danger">{{ Session::get('message') }}</div>
+				<div class="alert alert-success">{{ Session::get('message') }}</div>
 			@endif
 		</div>
 	</div>
@@ -19,7 +19,7 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Booking Belum Disetujui</h3>
+					<h3 class="box-title">Booking dari bidang lain</h3>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
