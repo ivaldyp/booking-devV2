@@ -66,7 +66,8 @@ class ListController extends Controller
                 ->with('bidangs', $bidangs)
                 ->with('id_bidang', $id_bidang)
                 ->with('monthnow', $monthnow)
-                ->with('montharray', $montharray);
+                ->with('montharray', $montharray)
+                ->with('booking_status', $booking_status);
     }
 
     public function getRuang(Request $request)
@@ -116,7 +117,8 @@ class ListController extends Controller
                 ->with('rooms', $rooms)
                 ->with('id_room', $id_room)
                 ->with('monthnow', $monthnow)
-                ->with('montharray', $montharray);
+                ->with('montharray', $montharray)
+                ->with('booking_status', $booking_status);
     }
     /**
      * Display a listing of the resource.
