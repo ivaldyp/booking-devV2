@@ -39,7 +39,7 @@ class CreateBookingsTable extends Migration
             $table->foreign('bidang_peminjam')->references('id_bidang')->on('bidangs');
             $table->foreign('id_penyetuju')->references('id_user')->on('users');
             $table->foreign('booking_room')->references('id_room')->on('rooms');
-            $table->foreign('booking_room_bidang')->references('room_owner')->on('rooms');
+            $table->foreign('booking_room_owner')->references('room_owner')->on('rooms');
             $table->foreign('id_surat')->references('id_surat')->on('surats');
             $table->foreign('time_start')->references('id_time')->on('times');
             $table->foreign('time_end')->references('id_time')->on('times');
