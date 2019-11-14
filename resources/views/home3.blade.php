@@ -35,7 +35,6 @@
 				<div class="col-xs-12">
 					<div class="box box-primary">
 						<div class="box-body no-padding">
-							<?php if (count($rooms) > 0) { ?>
 							<table class="table col-xs-10">
 								<thead>
 								<?php
@@ -65,7 +64,6 @@
 								?>
 								</tbody>
 							</table>
-							<?php } ?>
 						</div>
 					</div>
 				</div>
