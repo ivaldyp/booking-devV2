@@ -23,6 +23,7 @@ Route::get('/registeruser', 'LoadRegisterController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home2', 'HomeController@index2')->name('home');
+Route::get('/home3', 'HomeController@index3');
 Route::get('/home/read', 'HomeController@read');
 Route::get('/home/read2', 'HomeController@read2');
 
