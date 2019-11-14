@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Bidang;
 use App\Booking;
+use App\Room;
 use App\Subbidang;
 use App\Surat;
+use App\Time;
 use App\User_Type;
 use App\User;
 
@@ -105,14 +107,24 @@ class HomeController extends Controller
             $id_bidang = $request->id_bidang;
         }
 
+        $times = Time::get();
+
+        $rooms = Room::
+                    where('room_owner', $id_bidang)
+                    ->get();
+
         $datenow = date('Y-m-d');
 
         $bookings = Booking::
                     where('booking_date', $datenow)
+                    ->where('booking_room_owner', $id_bidang)
                     ->get();
-        var_dump($bookings);
-        die();
+        // var_dump(count($rooms));
+        // die();   
         return view('home3', $data)
+                ->with('times', $times)
+                ->with('rooms', $rooms)
+                ->with('bookings', $bookings)
                 ->with('bidangs', $bidangs)
                 ->with('id_bidang', $id_bidang);
     }

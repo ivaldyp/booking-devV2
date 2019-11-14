@@ -31,6 +31,42 @@
 					</form>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box box-primary">
+						<div class="box-body no-padding">
+							<?php if (count($rooms) > 0) { ?>
+							<table class="table col-xs-10">
+								<thead>
+								<?php
+									for ($i=0; $i <= count($rooms); $i++) { 
+										if ($i == 0) {
+											echo "<th class='col-xs-1'>Waktu</th>";
+										} else {
+											echo "<th>".$rooms[$i-1]->room_name."</th>";
+										}
+									}
+								?>
+								</thead>
+								<tbody>
+								<?php
+									for ($i=0; $i < count($times); $i++) { 
+										for ($j=0; $j <= count($rooms); $j++) { 
+											if ($j == 0) {
+												echo "<td>".$times[$i]->time_name."</th>";
+											} else {
+												echo "<td></td>";
+											}
+										}
+									}
+								?>
+								</tbody>
+							</table>
+							<?php } ?>
+						</div>
+					</div>
+				</div>
+			</div>
 			<!-- <div class="row">
 				<div class="col-xs-3">
 		      		<a href="{{ url('/') }}"><button class="btn btn-success" style="margin-bottom: 10px">Agenda View</button></a>

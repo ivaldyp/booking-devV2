@@ -74,6 +74,7 @@ class BookingsTableSeeder extends Seeder
                     'nip_peminjam' => $nip,
                     'bidang_peminjam' => rand(1, 5),
                     'booking_room' => $rooms[rand(0,2)],
+                    'booking_room_owner' => 5,
                     'booking_date' => $nowdate,
                     'booking_total_tamu' => 25,
                     'booking_total_snack' => 25,
