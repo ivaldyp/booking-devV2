@@ -50,14 +50,17 @@
 								</thead>
 								<tbody>
 								<?php
-									for ($i=0; $i < count($times); $i++) { 
+									for ($i=0; $i < count($times); $i++) {
+										echo "<tr>"; 
 										for ($j=0; $j <= count($rooms); $j++) { 
 											if ($j == 0) {
-												echo "<td>".$times[$i]->time_name."</th>";
+												$timesplit = explode(":", explode(" ", $times[$i]->time_name)[1]);
+												echo "<td>".$timesplit[0].":".$timesplit[1]."</td>";
 											} else {
 												echo "<td></td>";
 											}
 										}
+										echo "</tr>";
 									}
 								?>
 								</tbody>
