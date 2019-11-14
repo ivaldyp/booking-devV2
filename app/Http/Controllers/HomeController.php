@@ -111,6 +111,7 @@ class HomeController extends Controller
 
         $rooms = Room::
                     where('room_owner', $id_bidang)
+                    ->orderBy('id_room', 'ASC')
                     ->get();
 
         $datenow = date('Y-m-d');
@@ -118,8 +119,10 @@ class HomeController extends Controller
         $bookings = Booking::
                     where('booking_date', $datenow)
                     ->where('booking_room_owner', $id_bidang)
+                    ->orderBy('time_start', 'ASC')
+                    ->orderBy('booking_room', 'ASC')
                     ->get();
-        // var_dump(count($rooms));
+        // var_dump($bookings[1]);
         // die();   
         return view('home3', $data)
                 ->with('times', $times)

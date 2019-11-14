@@ -49,6 +49,8 @@
 								</thead>
 								<tbody>
 								<?php
+									$bookingcount = count($bookings) - 1;
+									$bookingnow = 0;
 									for ($i=0; $i < count($times); $i++) {
 										echo "<tr>"; 
 										for ($j=0; $j <= count($rooms); $j++) { 
@@ -56,7 +58,17 @@
 												$timesplit = explode(":", explode(" ", $times[$i]->time_name)[1]);
 												echo "<td>".$timesplit[0].":".$timesplit[1]."</td>";
 											} else {
-												echo "<td></td>";
+												if($bookings[$bookingnow]->booking_room == $rooms[$j-1]->id_room && 
+													$bookings[$bookingnow]->time_start == $times[$i]->id_time) {
+													$rowspan = $bookings[$bookingnow]->time_end - $bookings[$bookingnow]->time_start + 1;
+													echo "<td bgcolor='red' rowspan='$rowspan'>".$i.$j."</td>";
+													if ($bookingnow != count($bookings) - 1) {
+														$bookingnow++;
+													} 
+												} else {
+													echo "<td></td>";
+												}
+												
 											}
 										}
 										echo "</tr>";
