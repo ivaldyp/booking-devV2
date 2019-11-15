@@ -62,7 +62,8 @@
 													if($bookings[$bookingnow]->booking_room == $rooms[$j-1]->id_room && 
 														$bookings[$bookingnow]->time_start == $times[$i]->id_time) {
 														$rowspan = $bookings[$bookingnow]->time_end - $bookings[$bookingnow]->time_start + 1;
-														echo "<td bgcolor='red' rowspan='$rowspan'>".$i.$j."</td>";
+														echo "<td bgcolor='blue' rowspan='$rowspan' style='background: #667db6; background: -webkit-linear-gradient(to top, #667db6, #0082c8, #0082c8, #667db6); background: linear-gradient(to top, #667db6, #0082c8, #0082c8, #667db6); 
+'>".$i.$j."</td>";
 														if ($bookingnow != count($bookings) - 1) {
 															$bookingnow++;
 														} 
@@ -105,7 +106,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4 class="modal-title"><strong>Detail</strong></h4>
+							<h4 class="modal-title" ><strong>Detail</strong></h4>
 						</div>
 						<div class="modal-body"></div>
 						<div class="modal-footer">

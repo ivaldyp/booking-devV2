@@ -152,7 +152,7 @@
         @endif
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-book"></i> <span>List</span>
+            <i class="fa fa-book"></i> <span>Rekap per bulan</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

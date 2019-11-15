@@ -45,7 +45,7 @@
                       <?php } ?>
                     </select>
                   </div>
-                  <div class="form-group col-xs-1">
+                  <div class="form-group col-xs-2">
                     <select class="form-control" name="booking_status" id="booking_status" required>
                     <option <?php if($booking_status == 3) {echo "selected";} ?> value="3">Disetujui</option>
                     <option <?php if($booking_status == 2) {echo "selected";} ?> value="2">Dibatalkan</option>

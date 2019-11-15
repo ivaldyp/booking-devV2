@@ -36,8 +36,12 @@
 										$bookingnow = 0;
 										for ($i=0; $i < count($rooms); $i++) {
 											if ($bidangnow != $rooms[$i]->room_owner) {
-												echo "<tr>";
+												echo "<tr><td>";
 												echo "<b>".$bidangs[$bidangnow]->bidang_name."</b>";
+												echo "</td>";
+												for ($k=0; $k < count($times); $k++) { 
+													echo "<td></td>";
+												}
 												echo "</tr>";
 												$bidangnow++;
 												$i--;
@@ -47,7 +51,16 @@
 													if ($j == 0) {
 														echo "<td>".$rooms[$i]->room_name."</td>";
 													} else {
-														echo "<td></td>";
+														if($bookings[$bookingnow]->booking_room == $rooms[$i]->id_room && 
+															$bookings[$bookingnow]->time_start == $times[$j-1]->id_time) {
+															$colspan = $bookings[$bookingnow]->time_end - $bookings[$bookingnow]->time_start + 1;
+															echo "<td bgcolor='red' colspan='$colspan'>".$i.$j."</td>";
+															if ($bookingnow != count($bookings) - 1) {
+																$bookingnow++;
+															} 
+														} else {
+															echo "<td></td>";
+														}
 													}
 												}
 												echo "</tr>";
@@ -142,7 +155,7 @@
 @section('cal-init')
 	<script type="text/javascript">
 		$(function () {
-			$('#table').datatable();
+
 		});
 	</script>
 	<!-- <script src="{{ URL::asset('plugins2/bower_components/calendar/dist/cal-init.js') }}"></script> -->
