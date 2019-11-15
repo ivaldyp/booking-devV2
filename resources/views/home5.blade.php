@@ -10,39 +10,20 @@
 					@endif
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-lg-12">
-					<form method="GET" action="home3">
-						<div class="form-row">
-							<div class="form-group col-lg-4 col-xs-12">
-								<select class="form-control" name="id_bidang" id="id_bidang" required onchange="this.form.submit()">
-									<?php foreach ($bidangs as $data) { ?>
-										<option value="{{ $data->id_bidang }}" 
-										  	<?php 
-												if ($id_bidang == $data->id_bidang) {
-													echo "selected";
-												}
-										  	?>
-										>{{ $data->bidang_name }}</option>
-									<?php } ?>
-								</select>
-							</div>
-		              	</div>
-					</form>
-				</div>
-			</div>
+			
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="box box-primary">
 						<div class="box-body no-padding">
-							<table id="table" class="table col-xs-10">
+							<table id="table" class="table col-xs-10" style="display: block; overflow: auto; white-space: nowrap;">
 								<thead>
 								<?php
-									for ($i=0; $i <= count($rooms); $i++) { 
+									for ($i=0; $i <= count($times); $i++) { 
 										if ($i == 0) {
-											echo "<th class='col-xs-1'>Waktu</th>";
+											echo "<th class='col-xs-2'>Ruang</th>";
 										} else {
-											echo "<th>".$rooms[$i-1]->room_name."</th>";
+											$timesplit = explode(":", explode(" ", $times[$i-1]->time_name)[1]);
+											echo "<td>".$timesplit[0].":".$timesplit[1]."</td>";
 										}
 									}
 								?>
@@ -50,33 +31,31 @@
 								<tbody>
 								<?php
 									$bookingcount = count($bookings) - 1;
+									$bidangnow = 0;
 									if ($bookingcount >= 0) {
 										$bookingnow = 0;
-										for ($i=0; $i < count($times); $i++) {
-											echo "<tr>"; 
-											for ($j=0; $j <= count($rooms); $j++) { 
-												if ($j == 0) {
-													$timesplit = explode(":", explode(" ", $times[$i]->time_name)[1]);
-													echo "<td>".$timesplit[0].":".$timesplit[1]."</td>";
-												} else {
-													if($bookings[$bookingnow]->booking_room == $rooms[$j-1]->id_room && 
-														$bookings[$bookingnow]->time_start == $times[$i]->id_time) {
-														$rowspan = $bookings[$bookingnow]->time_end - $bookings[$bookingnow]->time_start + 1;
-														echo "<td bgcolor='red' rowspan='$rowspan'>".$i.$j."</td>";
-														if ($bookingnow != count($bookings) - 1) {
-															$bookingnow++;
-														} 
+										for ($i=0; $i < count($rooms); $i++) {
+											if ($bidangnow != $rooms[$i]->room_owner) {
+												echo "<tr>";
+												echo "<b>".$bidangs[$bidangnow]->bidang_name."</b>";
+												echo "</tr>";
+												$bidangnow++;
+												$i--;
+											} else {
+												echo "<tr>"; 
+												for ($j=0; $j <= count($times); $j++) { 
+													if ($j == 0) {
+														echo "<td>".$rooms[$i]->room_name."</td>";
 													} else {
 														echo "<td></td>";
 													}
-													
 												}
+												echo "</tr>";
 											}
-											echo "</tr>";
 										}
 									} else {
-										$colspan = count($rooms) + 1;
-										echo "<td colspan='".$colspan."' style='text-align: center;'>No data available</td>";
+										$rowspan = count($times) + 1;
+										echo "<td rowspan='".$rowspan."' style='text-align: center;'>No data available</td>";
 									}
 								?>
 								</tbody>
