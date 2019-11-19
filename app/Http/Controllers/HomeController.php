@@ -221,7 +221,8 @@ class HomeController extends Controller
                     ->orderBy('booking_room', 'ASC')
                     ->orderBy('time_start', 'ASC')
                     ->get();
-        // var_dump($rooms);
+        // echo "<pre>";
+        // var_dump($bookings);
         // die();   
         return view('home5', $data)
                 ->with('bidangs', $bidangs)

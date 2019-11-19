@@ -36,13 +36,9 @@
 										$bookingnow = 0;
 										for ($i=0; $i < count($rooms); $i++) {
 											if ($bidangnow != $rooms[$i]->room_owner) {
-												echo "<tr><td>";
+												echo "<tr><td colspan='".count($times)."'>";
 												echo "<b>".$bidangs[$bidangnow]->bidang_name."</b>";
-												echo "</td>";
-												for ($k=0; $k < count($times); $k++) { 
-													echo "<td></td>";
-												}
-												echo "</tr>";
+												echo "</td></tr>";
 												$bidangnow++;
 												$i--;
 											} else {
